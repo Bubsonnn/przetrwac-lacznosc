@@ -2,8 +2,10 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
 
 export default function RootNavbar() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [user, setUser] = useState<string | null>(null)
 
   const handleLogin = () => {
@@ -16,39 +18,79 @@ export default function RootNavbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-gray-900 text-white p-4 shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* 🔹 Linki wyśrodkowane */}
-        <div className="flex-1 flex justify-center gap-6 text-lg font-medium">
-          <Link href="/">Strona główna</Link>
-          <Link href="/about">ℹ O nas</Link>
-          <Link href="/courses">Kursy</Link>
-          <Link href="/tutorials">Poradniki</Link>
-          <Link href="/compendium">Kompendium</Link>
-        </div>
+    <nav className="relative bg-gray-800/70 backdrop-blur-md border-b border-white/10 text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          {/* 🔹 Lewa strona (logo) */}
+          <div className="flex items-center">
+            <img
+              src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+              alt="Logo"
+              className="h-8 w-auto"
+            />
+          </div>
 
-        {/* 🔹 Przycisk po prawej */}
-        <div className="flex gap-2">
-          {!user ? (
-            <>
-              <button
-                onClick={handleLogin}
-                className="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded transition-colors"
-              >
-                Zaloguj się
-              </button>
-              <button
-                onClick={handleRegister}
-                className="bg-green-600 hover:bg-green-700 px-4 py-1 rounded transition-colors"
-              >
-                Zarejestruj się
-              </button>
-            </>
-          ) : (
-            <span>Witaj, {user}</span>
-          )}
+          {/* 🔹 Linki (desktop) */}
+          <div className="hidden md:flex flex-1 justify-center space-x-6 text-sm font-medium">
+            <Link href="/" className="text-gray-300 hover:text-white hover:bg-white/10 rounded-md px-3 py-2 transition">
+              Strona główna
+            </Link>
+            <Link href="/about" className="text-gray-300 hover:text-white hover:bg-white/10 rounded-md px-3 py-2 transition">
+              O nas
+            </Link>
+            <Link href="/courses" className="text-gray-300 hover:text-white hover:bg-white/10 rounded-md px-3 py-2 transition">
+              Kursy
+            </Link>
+            <Link href="/tutorials" className="text-gray-300 hover:text-white hover:bg-white/10 rounded-md px-3 py-2 transition">
+              Poradniki
+            </Link>
+            <Link href="/compendium" className="text-gray-300 hover:text-white hover:bg-white/10 rounded-md px-3 py-2 transition">
+              Kompendium
+            </Link>
+          </div>
+
+          {/* 🔹 Prawa strona (przyciski logowania) */}
+          <div className="flex items-center gap-2">
+            {!user ? (
+              <>
+                <button
+                  onClick={handleLogin}
+                  className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md text-sm font-medium transition"
+                >
+                  Zaloguj się
+                </button>
+                <button
+                  onClick={handleRegister}
+                  className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md text-sm font-medium transition"
+                >
+                  Zarejestruj się
+                </button>
+              </>
+            ) : (
+              <span className="text-sm text-gray-300">Witaj, {user}</span>
+            )}
+
+            {/* 🔹 Mobile menu toggle */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="ml-2 md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-white hover:bg-white/10"
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* 🔹 Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-gray-800/90 border-t border-white/10 px-4 py-3 space-y-2">
+          <Link href="/" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white">Strona główna</Link>
+          <Link href="/about" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white">O nas</Link>
+          <Link href="/courses" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white">Kursy</Link>
+          <Link href="/tutorials" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white">Poradniki</Link>
+          <Link href="/compendium" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/10 hover:text-white">Kompendium</Link>
+        </div>
+      )}
     </nav>
   )
 }
