@@ -461,6 +461,14 @@ export default function CompendiumPage() {
 						uratować się przed jedynką.
 					</p>
 				</div>
+
+				<div className='flex justify-center mt-16'>
+					<a
+						href='/quiz'
+						className='px-8 py-4 bg-indigo-600 text-white text-xl rounded-2xl shadow-md hover:bg-indigo-700 transition-all'>
+						🎮 Przejdź do quizu
+					</a>
+				</div>
 			</section>
 		</main>
 	)
